@@ -2,9 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Book;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Author;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +17,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        User::create([
+            'name' => 'Karen',
+            'email' => 'Karen@example.com',
+            'password'=>Hash::make('1234'),
+            'role'=>'admin'
         ]);
+        User::create([
+            'name' => 'Juan',
+            'email' => 'Juan@example.com',
+            'password'=>Hash::make('1234'),
+            'role'=>'user'
+        ]);
+        Author::factory(5)->create();
+        Book::factory(10)->create();
     }
 }
