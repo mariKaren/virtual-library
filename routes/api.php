@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\API\AuthorController;
-use App\Http\Controllers\API\BookController;
-use App\Http\Controllers\API\ReviewController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\BookController;
+use App\Http\Controllers\API\AuthorController;
+use App\Http\Controllers\API\ReviewController;
 
 // Rutas públicas
 Route::get('/authors', [AuthorController::class, 'index']);
@@ -13,8 +14,13 @@ Route::get('/books/{id}', [BookController::class, 'show']);
 Route::get('/reviews', [ReviewController::class, 'index']);
 Route::get('/reviews/{id}', [ReviewController::class, 'show']);
 
+// Rutas de autenticación
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
 // Rutas privadas (requieren autenticación)
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
     // Authors
     Route::post('/authors', [AuthorController::class, 'store']);
     Route::put('/authors/{id}', [AuthorController::class, 'update']);
