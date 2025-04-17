@@ -1,10 +1,15 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BookController;
 use App\Http\Controllers\API\AuthorController;
 use App\Http\Controllers\API\ReviewController;
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 // Rutas públicas
 Route::get('/authors', [AuthorController::class, 'index']);
