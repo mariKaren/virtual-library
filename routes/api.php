@@ -18,20 +18,25 @@ Route::get('/reviews/{id}', [ReviewController::class, 'show']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+
 // Rutas privadas (requieren autenticación)
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    // Authors
-    Route::post('/authors', [AuthorController::class, 'store']);
-    Route::put('/authors/{id}', [AuthorController::class, 'update']);
-    Route::delete('/authors/{id}', [AuthorController::class, 'destroy']);
-    
-    // Books
-    Route::post('/books', [BookController::class, 'store']);
-    Route::put('/books/{id}', [BookController::class, 'update']);
-    Route::delete('/books/{id}', [BookController::class, 'destroy']);
-    
-    // Reviews
+
+    // Rutas solo para administradores
+    Route::middleware('role:admin')->group(function () {
+        // Authors
+        Route::post('/authors', [AuthorController::class, 'store']);
+        Route::put('/authors/{id}', [AuthorController::class, 'update']);
+        Route::delete('/authors/{id}', [AuthorController::class, 'destroy']);
+        
+        // Books
+        Route::post('/books', [BookController::class, 'store']);
+        Route::put('/books/{id}', [BookController::class, 'update']);
+        Route::delete('/books/{id}', [BookController::class, 'destroy']);
+    });
+
+    // Reviews (accesibles para cualquier usuario autenticado)
     Route::post('/reviews', [ReviewController::class, 'store']);
     Route::put('/reviews/{id}', [ReviewController::class, 'update']);
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
