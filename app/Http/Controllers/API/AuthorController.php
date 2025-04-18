@@ -102,10 +102,11 @@ class AuthorController extends Controller
             ], 404);
         }
 
+        if ($author->books()->count() > 0) {
+            return response()->json(['error' => 'No se puede eliminar un autor con libros asociados'], 422);
+        }
+
         $author->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Author deleted successfully',
-        ], 204);
+        return response()->json([], 204);
     }
 }
