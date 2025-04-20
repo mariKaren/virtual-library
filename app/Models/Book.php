@@ -20,4 +20,9 @@ class Book extends Model
     {
         return $this->belongsTo(Author::class);
     }
+
+    public function getPublicationDateAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('d/m/Y');
+    }
 }
