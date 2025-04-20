@@ -69,22 +69,35 @@ class AuthorController extends Controller
             ], 404);
         }
 
-        $validator = Validator::make($request->all(), [
+        $validFields = $author->getFillable();
+        $inputFields = array_keys($request->all());
+        $validInput = array_intersect($inputFields, $validFields);
+    
+        // Verificar si hay al menos un campo válido. Sin esta validacion, cuando se querian actualizar datos sin propiedades, no se realizaba ninguna modificacion pero devolvia un mensaje de exito
+        if (empty($validInput)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No valid fields provided for update',
+            ], 422);
+        }
+    
+        $validator = Validator::make($request->only($validInput), [
             'name' => 'sometimes|required|string|max:255',
-            'nationality' => 'nullable|string|max:255',
-            'birth_date' => 'nullable|date',
-            'birth_city' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
+            'nationality' => 'sometimes|nullable|string|max:100',
+            'birth_date' => 'sometimes|nullable|date',
+            'birth_city' => 'sometimes|nullable|string|max:100',
+            'description' => 'sometimes|nullable|string',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'errors' => $validator->errors(),
             ], 422);
         }
-
-        $author->update($request->all());
+    
+        $author->update($request->only($validInput));
+    
         return response()->json([
             'status' => 'success',
             'message' => 'Author updated successfully',

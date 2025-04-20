@@ -68,11 +68,24 @@ class BookController extends Controller
             ], 404);
         }
 
-        $validator = Validator::make($request->all(), [
+        // Filtrar solo los campos válidos
+        $validFields = $book->getFillable();
+        $inputFields = array_keys($request->all());
+        $validInput = array_intersect($inputFields, $validFields);
+
+        if (empty($validInput)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No valid fields provided for update',
+            ], 422);
+        }
+
+        $validator = Validator::make($request->only($validInput), [
             'title' => 'sometimes|required|string|max:255',
             'author_id' => 'sometimes|required|exists:authors,id',
-            'genre' => 'nullable|string|max:255',
-            'publication_date' => 'sometimes|required|date',
+            'genre' => 'sometimes|nullable|string|max:255',
+            'publication_date' => 'sometimes|required|integer|min:1000|max:' . date('Y'),
+            'description' => 'sometimes|nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -80,14 +93,17 @@ class BookController extends Controller
                 'status' => 'error',
                 'errors' => $validator->errors(),
             ], 422);
-        }
+    }
 
-        $book->update($request->all());
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Book updated successfully',
-            'data' => $book,
-        ], 200);
+    // Actualizar el libro
+    $book->update($request->only($validInput));
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Book updated successfully',
+        'data' => $book,
+    ], 200);
+        
     }
 
     public function destroy($id)
