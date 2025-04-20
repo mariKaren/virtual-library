@@ -25,7 +25,7 @@ class AuthorController extends Controller
             'nationality' => 'nullable|string|max:255',
             'birth_date' => 'nullable|date',
             'birth_city' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:3000',
         ]);
 
         if ($validator->fails()) {
@@ -86,7 +86,7 @@ class AuthorController extends Controller
             'nationality' => 'sometimes|nullable|string|max:100',
             'birth_date' => 'sometimes|nullable|date',
             'birth_city' => 'sometimes|nullable|string|max:100',
-            'description' => 'sometimes|nullable|string',
+            'description' => 'sometimes|nullable|string|max:3000',
         ]);
     
         if ($validator->fails()) {

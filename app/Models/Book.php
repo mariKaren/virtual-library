@@ -14,6 +14,7 @@ class Book extends Model
         'author_id',
         'genre',
         'publication_date',
+        'description',
     ];
 
     public function author()

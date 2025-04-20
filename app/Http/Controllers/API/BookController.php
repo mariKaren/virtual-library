@@ -25,6 +25,7 @@ class BookController extends Controller
             'author_id' => 'required|exists:authors,id',
             'genre' => 'nullable|string|max:255',
             'publication_date' => 'required|date',
+            'description' => 'nullable|string|max:2000',
         ]);
 
         if ($validator->fails()) {
@@ -85,7 +86,7 @@ class BookController extends Controller
             'author_id' => 'sometimes|required|exists:authors,id',
             'genre' => 'sometimes|nullable|string|max:255',
             'publication_date' => 'sometimes|required|date',
-            'description' => 'sometimes|nullable|string',
+            'description' => 'sometimes|nullable|string|max:2000',
         ]);
 
         if ($validator->fails()) {
@@ -117,9 +118,6 @@ class BookController extends Controller
         }
 
         $book->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Book deleted successfully',
-        ], 204);
+        return response()->json([], 204);
     }
 }
