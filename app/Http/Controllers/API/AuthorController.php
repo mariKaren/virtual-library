@@ -35,7 +35,7 @@ class AuthorController extends Controller
             ], 422);
         }
 
-        $author = Author::create($request->all());
+        $author = Author::create($request->only(['name', 'nationality', 'birth_date', 'birth_city', 'description']));
         return response()->json([
             'status' => 'success',
             'message' => 'Author created successfully',

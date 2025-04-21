@@ -35,11 +35,11 @@ class BookController extends Controller
             ], 422);
         }
 
-        $book = Book::create($request->all());
+        $book = Book::create($request->only(['title', 'author_id', 'genre', 'publication_date', 'description']));
         return response()->json([
             'status' => 'success',
             'message' => 'Book created successfully',
-            'data' => $book,
+            'data' => $book->load('author'),
         ], 201);
     }
 
@@ -102,7 +102,7 @@ class BookController extends Controller
     return response()->json([
         'status' => 'success',
         'message' => 'Book updated successfully',
-        'data' => $book,
+        'data' => $book->load('author'),
     ], 200);
         
     }

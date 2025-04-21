@@ -141,10 +141,7 @@ class ReviewController extends Controller
         }
 
         $review->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Review deleted successfully',
-        ], 204);
+        return response()->json([], 204);
         
     }
 }
