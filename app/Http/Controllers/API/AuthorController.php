@@ -95,7 +95,8 @@ class AuthorController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-    
+
+        // Actualizar el autor con los campos validados
         $author->update($request->only($validInput));
     
         return response()->json([
@@ -115,8 +116,9 @@ class AuthorController extends Controller
             ], 404);
         }
 
+        //No se pueden eliminar autores que tengan libros asociados
         if ($author->books()->count() > 0) {
-            return response()->json(['error' => 'No se puede eliminar un autor con libros asociados'], 422);
+            return response()->json(['error' => 'It is not possible to delete an author who has books associated with them.'], 422);
         }
 
         $author->delete();

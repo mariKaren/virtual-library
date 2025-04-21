@@ -94,16 +94,16 @@ class BookController extends Controller
                 'status' => 'error',
                 'errors' => $validator->errors(),
             ], 422);
-    }
+        }
 
-    // Actualizar el libro
-    $book->update($request->only($validInput));
+        // Actualizar el libro con los campos validados
+        $book->update($request->only($validInput));
 
-    return response()->json([
-        'status' => 'success',
-        'message' => 'Book updated successfully',
-        'data' => $book->load('author'),
-    ], 200);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Book updated successfully',
+            'data' => $book->load('author'),
+        ], 200);
         
     }
 
