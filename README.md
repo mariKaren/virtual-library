@@ -25,7 +25,7 @@ API RESTful desarrollada con **Laravel**, que permite la gestión de una bibliot
    
 2. Instalá las dependencias:
 
-composer install
+    composer install
 
 4. Copiá el archivo .env.example a .env y configurá tus variables:
 
@@ -43,15 +43,15 @@ composer install
 
 4. Instalá Sanctum:
    
-composer require laravel/sanctum
+    composer require laravel/sanctum
 
-php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+    php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 
 6. Importá los archivos dump de MySQL y MongoDB provistos.
 
 7. Iniciá el servidor:
    
-php artisan serve
+    php artisan serve
 
 ## Documentación y Endpoints
 Para la documentación completa de la API, base de datos y estructura de roles, consultá el archivo Memoria del Proyecto.
